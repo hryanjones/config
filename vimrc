@@ -12,11 +12,7 @@ filetype plugin indent on
 " Configuration
 " -------------
 
-colorscheme solarized
-set background=dark
-set guifont=Inconsolata:h24     " Huge and not always there ...
-set guifont=Monaco:h18
-set guioptions-=T               " Remove GUI toolbar
+colorscheme ir_black
 set visualbell                  " Suppress audio/visual error bell
 set notimeout                   " No command timeout
 set showcmd                     " Show typed command prefixes while waiting for operator
@@ -76,18 +72,18 @@ vmap <S-tab>    <gv
 nmap <leader>s  :%s/
 vmap <leader>s  :s/
 
-" Split screen
-map <leader>v   :vsp<CR>
+  " Split screen
+  map <leader>v   :vsp<CR>
 
-" Move between screens
-map <leader>w   ^Ww
-map <leader>=   ^W=
-map <leader>j   ^Wj
-map <leader>k   ^Wk
-nmap <C-j>      <C-w>j
-nmap <C-k>      <C-w>k
-nmap <C-h>      <C-w>h
-nmap <C-l>      <C-w>l
+  " Move between screens
+  map <leader>w   ^Ww
+  map <leader>=   ^W=
+  map <leader>j   ^Wj
+  map <leader>k   ^Wk
+  nmap <C-j>      <C-w>j
+  nmap <C-k>      <C-w>k
+  nmap <C-h>      <C-w>h
+  nmap <C-l>      <C-w>l
 
 " Open .vimrc file in new tab. Think Command + , [Preferences...] but with Shift.
 map <D-<>       :tabedit ~/.vimrc<CR>
