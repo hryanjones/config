@@ -14,18 +14,12 @@ filetype plugin indent on
 
 colorscheme solarized
 set background=dark
-set guifont=Inconsolata:h24     " Huge and not always there ...
-set guifont=Monaco:h18
+set guifont=Inconsolata\ 10
 set guioptions-=T               " Remove GUI toolbar
 set visualbell                  " Suppress audio/visual error bell
 set notimeout                   " No command timeout
 set showcmd                     " Show typed command prefixes while waiting for operator
 
-set expandtab                   " Use soft tabs
-set tabstop=2                   " Tab settings
-set autoindent
-set smarttab                    " Use shiftwidth to tab at line beginning
-set shiftwidth=2                " Width of autoindent
 set number                      " Line numbers
 set nowrap                      " No wrapping
 set ignorecase                  " Ignore case
