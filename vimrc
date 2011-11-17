@@ -12,7 +12,7 @@ filetype plugin indent on
 " Configuration
 " -------------
 
-colorscheme ir_black
+colorscheme wombat
 set visualbell                  " Suppress audio/visual error bell
 set notimeout                   " No command timeout
 set showcmd                     " Show typed command prefixes while waiting for operator
@@ -36,10 +36,9 @@ set splitright                  " Add new windows towards the right
 set splitbelow                  " ... and bottom
 set wildmode=list:longest       " Bash-like tab completion
 set scrolloff=3                 " Scroll when the cursor is 3 lines from edge
-set cursorline                  " Highlight current line
 set laststatus=2                " Always show statusline
 set statusline=
-set statusline+=\ %t\ \|\ len:\ \%L\ \|\ type:\ %Y\ \|\ ascii:\ \%03.3b\ \|\ hex:\ %2.2B\ \|\ line:\ \%2l
+set statusline+=\ %t\ \|\ len:\ \%L\ \|\ type:\ %Y\ \|\ ascii:\ \%03.3b\ \|\ hex:\ %2.2B\ \|\ line:\ \%2l/%L\ \|\ \ col:\ %c
 
 set incsearch                   " Incremental search
 set history=1024                " History size
