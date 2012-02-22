@@ -239,6 +239,9 @@ autocmd FileType scss set iskeyword=@,48-57,_,-,?,!,192-255
 " Insert ' => '
 autocmd FileType ruby imap  <Space>=><Space>
 
+" Disable 'ex' mode
+map Q <Nop>
+
 " .vimrc.local Options
 " --------------------
 "
