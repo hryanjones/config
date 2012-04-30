@@ -66,18 +66,18 @@ vmap <S-tab>    <gv
 nmap <leader>s  :%s/
 vmap <leader>s  :s/
 
-  " Split screen
-  map <leader>v   :vsp<CR>
+" Split screen
+map <leader>v   :vsp<CR>
 
-  " Move between screens
-  map <leader>w   ^Ww
-  map <leader>=   ^W=
-  map <leader>j   ^Wj
-  map <leader>k   ^Wk
-  nmap <C-j>      <C-w>j
-  nmap <C-k>      <C-w>k
-  nmap <C-h>      <C-w>h
-  nmap <C-l>      <C-w>l
+" Move between screens
+map <leader>w   ^Ww
+map <leader>=   ^W=
+map <leader>j   ^Wj
+map <leader>k   ^Wk
+nmap <C-j>      <C-w>j
+nmap <C-k>      <C-w>k
+nmap <C-h>      <C-w>h
+nmap <C-l>      <C-w>l
 
 " Open .vimrc file in new tab. Think Command + , [Preferences...] but with Shift.
 map <D-<>       :tabedit ~/.vimrc<CR>
@@ -116,6 +116,9 @@ map <M-D-Up>    :cp<CR>
 map <M-D-Left>  :bp<CR>
 map <M-D-Right> :bn<CR>
 
+" Additional key mappings for plugins
+" -----------------------------------
+
 " FuzzyFinder and switchback commands
 map <leader>e   :e#<CR>
 map <leader>b   :FufBuffer<CR>
@@ -123,22 +126,7 @@ map <leader>f   <Plug>PeepOpen
 map <leader><C-N> :FufFile **/<CR>
 
 " Command-T
-map <D-e>       :CommandTBuffer<CR>
-map <D-N>       :CommandTFlush<CR>:CommandT<CR>
-imap <D-N>      <Esc>:CommandTFlush<CR>:CommandT<CR>
-nmap <leader>t  :CommandT<CR>
-
-" Re-index ctags, including Gem home
-map <leader>rt  :!/usr/local/bin/ctags -R --exclude=.git --exclude=log * `rvm gemhome`/*<CR>
-map <leader>T   :!rdoc -f tags -o tags * `rvm gemhome` --exclude=.git --exclude=log
-
-" Git blame
-map <leader>g   :Gblame<CR>
-
-" Comment/uncomment lines
-map <leader>/   <plug>NERDCommenterToggle
-map <D-/>       <plug>NERDCommenterToggle
-imap <D-/>      <Esc><plug>NERDCommenterToggle i
+nmap <leader>t  :CtrlPMixed<CR>
 
 " Copy current file path to system pasteboard
 map <silent> <D-C> :let @* = expand("%")<CR>:echo "Copied: ".expand("%")<CR>
@@ -152,14 +140,35 @@ imap <F1>           <Nop>
 " Easy access to the shell
 map <Leader><Leader> :!
 
+" Comment/uncomment lines
+map <leader>/   <plug>NERDCommenterToggle
+map <D-/>       <plug>NERDCommenterToggle
+imap <D-/>      <Esc><plug>NERDCommenterToggle i
+
+" Re-index ctags, including Gem home
+map <leader>rt  :!/usr/local/bin/ctags -R --exclude=.git --exclude=log * `rvm gemhome`/*<CR>
+map <leader>T   :!rdoc -f tags -o tags * `rvm gemhome` --exclude=.git --exclude=log
+
+" Git blame
+map <leader>g   :Gblame<CR>
+
+" Plugin Options
+" --------------
+
+" Configuration for CtrlP
+let g:ctrlp_custom_ignore = {
+	\ 'dir':  '\.git$\|\.hg$\|\.svn$',
+	\ 'file': '\.exe$\|\.so$\|\.dll$',
+	\ }
+
+" Enable NeoComplCache
+let g:neocomplcache_enable_at_startup = 1
+
 " Pad comment delimeters with spaces
 let NERDSpaceDelims = 1
 
 " Small default width for NERDTree pane
 let g:NERDTreeWinSize = 20
-
-" Small default height for CommandT
-let g:CommandTMaxHeight=20
 
 " Change working directory if you change root directories
 let g:NERDTreeChDirMode=2
