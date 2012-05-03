@@ -119,15 +119,6 @@ map <M-D-Right> :bn<CR>
 " Additional key mappings for plugins
 " -----------------------------------
 
-" FuzzyFinder and switchback commands
-map <leader>e   :e#<CR>
-map <leader>b   :FufBuffer<CR>
-map <leader>f   <Plug>PeepOpen
-map <leader><C-N> :FufFile **/<CR>
-
-" Command-T
-nmap <leader>t  :CtrlPMixed<CR>
-
 " Copy current file path to system pasteboard
 map <silent> <D-C> :let @* = expand("%")<CR>:echo "Copied: ".expand("%")<CR>
 
@@ -152,6 +143,11 @@ map <leader>T   :!rdoc -f tags -o tags * `rvm gemhome` --exclude=.git --exclude=
 " Git blame
 map <leader>g   :Gblame<CR>
 
+" CtrlP
+nmap <leader>t  :CtrlPMixed<CR>
+nmap <leader>b  :CtrlPBuffer<CR>
+nmap <leader>m  :CtrlPMRU<CR>
+
 " Plugin Options
 " --------------
 
@@ -161,6 +157,12 @@ let g:ctrlp_custom_ignore = {
 	\ 'file': '\.exe$\|\.so$\|\.dll$',
 	\ }
 
+let g:ctrlp_user_command = {
+	\   'types': {
+	\       1: ['.git/', 'cd %s && git ls-files']
+	\   },
+	\   'fallback': 'find %s -type f | head -' . 10000
+	\ }
 " Enable NeoComplCache
 let g:neocomplcache_enable_at_startup = 1
 
