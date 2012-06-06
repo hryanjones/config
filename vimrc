@@ -144,7 +144,7 @@ map <leader>T   :!rdoc -f tags -o tags * `rvm gemhome` --exclude=.git --exclude=
 map <leader>g   :Gblame<CR>
 
 " CtrlP
-nmap <leader>t  :CtrlPMixed<CR>
+nmap <leader>t  :CtrlPCurWD<CR>
 nmap <leader>b  :CtrlPBuffer<CR>
 nmap <leader>m  :CtrlPMRU<CR>
 
