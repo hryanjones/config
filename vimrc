@@ -12,7 +12,9 @@ filetype plugin indent on
 " Configuration
 " -------------
 
-colorscheme wombat
+colorscheme jellybeans
+set encoding=utf-8
+set t_Co=256
 set visualbell                  " Suppress audio/visual error bell
 set notimeout                   " No command timeout
 set showcmd                     " Show typed command prefixes while waiting for operator
@@ -23,7 +25,7 @@ set ignorecase                  " Ignore case
 set smartcase                   " ... unless uppercase characters are involved
 
 set list                        " Show whitespace
-set listchars=tab:▸\ ,trail:¬   " UTF-8 characters for trailing whitespace
+set listchars=tab:>\ ,trail:+   " UTF-8 characters for trailing whitespace
 set virtualedit=onemore         " Cursor can display one character past line
 set showmatch                   " Show matching brackets
 set hidden                      " Allow hidden, unsaved buffers
@@ -31,9 +33,9 @@ set splitright                  " Add new windows towards the right
 set splitbelow                  " ... and bottom
 set wildmode=list:longest       " Bash-like tab completion
 set scrolloff=3                 " Scroll when the cursor is 3 lines from edge
+
 set laststatus=2                " Always show statusline
-set statusline=
-set statusline+=\ %t\ \|\ len:\ \%L\ \|\ type:\ %Y\ \|\ ascii:\ \%03.3b\ \|\ hex:\ %2.2B\ \|\ line:\ \%2l/%L\ \|\ \ col:\ %c
+let g:Powerline_symbols='unicode'
 
 set incsearch                   " Incremental search
 set history=1024                " History size
@@ -153,16 +155,16 @@ nmap <leader>m  :CtrlPMRU<CR>
 
 " Configuration for CtrlP
 let g:ctrlp_custom_ignore = {
-	\ 'dir':  '\.git$\|\.hg$\|\.svn$',
-	\ 'file': '\.exe$\|\.so$\|\.dll$',
-	\ }
+      \ 'dir':  '\.git$\|\.hg$\|\.svn$',
+      \ 'file': '\.exe$\|\.so$\|\.dll$',
+      \ }
 
 let g:ctrlp_user_command = {
-	\   'types': {
-	\       1: ['.git/', 'cd %s && git ls-files']
-	\   },
-	\   'fallback': 'find %s -type f | head -' . 10000
-	\ }
+      \   'types': {
+      \       1: ['.git/', 'cd %s && git ls-files']
+      \   },
+      \   'fallback': 'find %s -type f | head -' . 10000
+      \ }
 " Enable NeoComplCache
 let g:neocomplcache_enable_at_startup = 1
 
@@ -178,28 +180,14 @@ let g:NERDTreeChDirMode=2
 " Use paste mode when replacing. (Work in progress.)
 " vmap <silent> <C-K> :<C-U>call InPasteMode("<Plug>ReplaceVisual")<CR>
 " function! InPasteMode(command)
-  " let oldpaste = &l:paste
-  " try
-    " set paste
-    " execute "normal" "gv".a:command
-  " finally
-    " let &l:paste = oldpaste
-  " endtry
+" let oldpaste = &l:paste
+" try
+" set paste
+" execute "normal" "gv".a:command
+" finally
+" let &l:paste = oldpaste
+" endtry
 " endfunction
-
-" Find current word in command mode
-function! AckGrep()
-  let command = "ack ".expand("<cword>")
-  cexpr system(command)
-  cw
-endfunction
-
-function! AckVisual()
-  normal gv"xy
-  let command = "ack ".@x
-  cexpr system(command)
-  cw
-endfunction
 
 " Find unused Cucumber steps
 command! CucumberFindUnusedSteps :call CucumberFindUnusedSteps()
