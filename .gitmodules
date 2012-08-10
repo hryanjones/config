@@ -79,3 +79,6 @@
 [submodule "bundle/color-jellybeans"]
 	path = bundle/color-jellybeans
 	url = https://github.com/nanotech/jellybeans.vim
+[submodule "bundle/delimitMate"]
+	path = bundle/delimitMate
+	url = https://github.com/Raimondi/delimitMate.git
