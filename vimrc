@@ -203,11 +203,6 @@ function! CucumberFindUnusedSteps()
   endtry
 endfunction
 
-" AckGrep current word
-map <leader>a :call AckGrep()<CR>
-" AckVisual current selection
-vmap <leader>a :call AckVisual()<CR>
-
 " Whitespace & highlighting & language-specific config
 " ----------------------------------------------------
 
@@ -244,18 +239,4 @@ map Q <Nop>
 
 " .vimrc.local Options
 " --------------------
-"
-" No GUI tab bar
-" set guioptions-=e
-
-" No scrollbars
-" set guioptions-=rL
-
-" 256 colors
-" set t_Co=256
-
-" Change background color in insert mode
-" let g:insert_mode_background_color = "#18434E"
-
-" Machine-local vim settings - keep this at the end
 silent! source ~/.vimrc.local
