@@ -1,6 +1,7 @@
 [user]
   name = H. Ryan Jones
-  email = hrjones@amazon.com
+  #email = hrjones@amazon.com #WORK
+  email = hryanjones@gmail.com #HOME
 [color]
   diff = auto
   status = auto
