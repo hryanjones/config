@@ -6,204 +6,154 @@ call pathogen#helptags()
 call pathogen#runtime_append_all_bundles()
 
 set nocompatible                " Don't maintain compatibility with vi
-syntax on                       " Highlight known syntaxes
+
 filetype plugin indent on
 
 " Configuration
 " -------------
+" Looks good inverted with my set background color and readable in vimdiff
+"colorscheme ron
 
-colorscheme jellybeans
 set encoding=utf-8
 set t_Co=256
 set visualbell                  " Suppress audio/visual error bell
 set notimeout                   " No command timeout
 set showcmd                     " Show typed command prefixes while waiting for operator
-
+  "set ttimeout              " timeout on key-codes
+  "set ttimeoutlen=200       " timeout on key-codes after this many ms
 set number                      " Line numbers
-set nowrap                      " No wrapping
 set ignorecase                  " Ignore case
 set smartcase                   " ... unless uppercase characters are involved
 
-set list                        " Show whitespace
-set listchars=tab:>\ ,trail:+   " UTF-8 characters for trailing whitespace
-set virtualedit=onemore         " Cursor can display one character past line
-set showmatch                   " Show matching brackets
-set hidden                      " Allow hidden, unsaved buffers
+set list                                     " allows showing of whitespace chars
+set listchars=tab:>-,trail:-                 " prefix tabs with a > and trails with -
+  set showmatch                   " Show matching brackets
+
 set splitright                  " Add new windows towards the right
 set splitbelow                  " ... and bottom
-set wildmode=list:longest       " Bash-like tab completion
-set scrolloff=3                 " Scroll when the cursor is 3 lines from edge
+  set wildmode=list:longest,full               " list all options, match to the longest
+  set wildmenu              " This is used with wildmode(full) to cycle options
+  set laststatus=2          " always have status bar
 
-set laststatus=2                " Always show statusline
 let g:rails_statusline=0        " Disable rails statusline, which doesn't like powerline
-
 let g:Powerline_symbols='fancy'
 
-set incsearch                   " Incremental search
-set history=1024                " History size
-
-set autoread                    " No prompt for file changes outside Vim
-set noswapfile                  " No swap file
-set nobackup                    " No backup file
-set nowritebackup
-
+set incsearch             " incremental search
+set history=1024  " keep 1024 lines of history
 set autowriteall                " Save when focus is lost
 autocmd FocusLost * silent! wall
-
-" Keybindings
-" -----------
-
-let mapleader = ","
-let maplocalleader = ";"
-
-" kj - The intuitive way to get out of insert mode
-imap kj         <Esc>
-
-" Make Y consistent with D and C
-map Y           y$
 
 " Indent/unindent visual mode selection
 vmap <tab>      >gv
 vmap <S-tab>    <gv
 
-" Search
-nmap <leader>s  :%s/
-vmap <leader>s  :s/
 
-" Split screen
-map <leader>v   :vsp<CR>
 
-" Move between screens
-map <leader>w   ^Ww
-map <leader>=   ^W=
-map <leader>j   ^Wj
-map <leader>k   ^Wk
-nmap <C-j>      <C-w>j
-nmap <C-k>      <C-w>k
-nmap <C-h>      <C-w>h
-nmap <C-l>      <C-w>l
+" Key remappings
+nnoremap <F4> :GundoToggle<CR>
+set pastetoggle=<F2> " Allow paste mode to be entered via <F2> key
+" switch focus to next tab
+map <F7> <esc>:tabp<enter>
+" switch focus to prev tab
+map <F8> <esc>:tabn<enter>
 
-" Open .vimrc file in new tab. Think Command + , [Preferences...] but with Shift.
-map <D-<>       :tabedit ~/.vimrc<CR>
 
-" Reload .vimrc
-map <leader>rv  :source ~/.vimrc<CR>
-" Remove highlighting post-search
-nmap <leader>y  :nohls<CR>
+" insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+inoremap <C-U> <C-G>u<C-U>
 
-" Undo/redo - Doesn't MacVim already have this?
-map <D-z>       :earlier 1<CR>
-map <D-Z>       :later 1<CR>
+" In many terminal emulators the mouse works just fine, thus enable it.
+if has('mouse')
+  set mouse=a
+endif
 
-" Auto-indent whole file
-nmap <leader>=  gg=G``
-map <silent> <F7> gg=G`` :delmarks z<CR>:echo "Reformatted."<CR>
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+if &t_Co > 2 || has("gui_running")
+  syntax on
+  set hlsearch
+endif
 
-" Jump to a new line in insert mode
-imap <D-CR>     <Esc>o
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
 
-" Fast scrolling
-nnoremap <C-e>  3<C-e>
-nnoremap <C-y>  3<C-y>
+  " Enable file type detection.
+  " Use the default filetype settings, so that mail gets 'tw' set to 72,
+  " 'cindent' is on in C files, etc.
+  " Also load indent files, to automatically do language-dependent indenting.
 
-" File tree browser
-map \           :NERDTreeToggle<CR>
+  set shiftwidth=2
+  set ts=2
 
-" File tree browser showing current file - pipe (shift-backslash)
-map \|          :NERDTreeFind<CR>
+  " Perl mason modules often have different tab stop issues
+  autocmd BufRead *mi setlocal shiftwidth=4 | setlocal tabstop=4 | setlocal expandtab
 
-" Previous/next quickfix file listings (e.g. search results)
-map <M-D-Down>  :cn<CR>
-map <M-D-Up>    :cp<CR>
+ " Put these in an autocmd group, so that we can delete them easily.
+  augroup vimrcEx
+  au!
 
-" Previous/next buffers
-map <M-D-Left>  :bp<CR>
-map <M-D-Right> :bn<CR>
+  " When editing a file, always jump to the last known cursor position.
+  " Don't do it when the position is invalid or when inside an event handler
+  " (happens when dropping a file on gvim).
+  " Also don't do it when the mark is in the first line, that is the default
+  " position when opening a file.
+  autocmd BufReadPost *
+    \ if line("'\"") > 1 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
 
-" Additional key mappings for plugins
-" -----------------------------------
+  augroup END
+  augroup GPGASCII
+    au!
+    au BufReadPost *.gpg :%!gpg -q -d
+    au BufReadPost *.gpg |redraw
+    au BufWritePre *.gpg :%!gpg -q -e -a
+    au BufWritePost *.gpg u
+    au VimLeave *.gpg :!clear
+  augroup END
 
-" Copy current file path to system pasteboard
-map <silent> <D-C> :let @* = expand("%")<CR>:echo "Copied: ".expand("%")<CR>
+endif " has("autocmd")
 
-" Disable middle mouse button, F1
-map <MiddleMouse>   <Nop>
-imap <MiddleMouse>  <Nop>
-map <F1>            <Nop>
-imap <F1>           <Nop>
+" Syntax Highlighting changes
+set ft=haml.javascript "HAML http://goo.gl/yXgOX"
+au BufNewFile,BufRead *.mi set filetype=xml " Perl Mason"
 
-" Easy access to the shell
-map <Leader><Leader> :!
+let hostname = substitute($HOSTNAME, '\..*','','')
+if hostname == "hrjones-2" || hostname == "hrjones"
+  " only stuff to be applied at work"
+endif
+if hostname == "hrjones-2"
+  " only on RHEL5"
+  source /apollo/env/envImprovement/var/vimruntimehook
+endif
 
-" Comment/uncomment lines
-map <leader>/   <plug>NERDCommenterToggle
-map <D-/>       <plug>NERDCommenterToggle
-imap <D-/>      <Esc><plug>NERDCommenterToggle i
-
-" Re-index ctags, including Gem home
-map <leader>rt  :!/usr/local/bin/ctags -R --exclude=.git --exclude=log * `rvm gemhome`/*<CR>
-map <leader>T   :!rdoc -f tags -o tags * `rvm gemhome` --exclude=.git --exclude=log
-
-" Git blame
-map <leader>g   :Gblame<CR>
-
-" CtrlP
-nmap <leader>t  :CtrlPCurWD<CR>
-nmap <leader>b  :CtrlPBuffer<CR>
-nmap <leader>m  :CtrlPMRU<CR>
-
-" Plugin Options
-" --------------
-
-" Configuration for CtrlP
-let g:ctrlp_custom_ignore = {
-      \ 'dir':  '\.git$\|\.hg$\|\.svn$',
-      \ 'file': '\.exe$\|\.so$\|\.dll$',
-      \ }
-
-let g:ctrlp_user_command = {
-      \   'types': {
-      \       1: ['.git/', 'cd %s && git ls-files']
-      \   },
-      \   'fallback': 'find %s -type f | head -' . 10000
-      \ }
-" Enable NeoComplCache
-let g:neocomplcache_enable_at_startup = 1
-
-" Pad comment delimeters with spaces
-let NERDSpaceDelims = 1
-
-" Small default width for NERDTree pane
-let g:NERDTreeWinSize = 20
-
-" Change working directory if you change root directories
-let g:NERDTreeChDirMode=2
-
-" Use paste mode when replacing. (Work in progress.)
-" vmap <silent> <C-K> :<C-U>call InPasteMode("<Plug>ReplaceVisual")<CR>
-" function! InPasteMode(command)
-" let oldpaste = &l:paste
-" try
-" set paste
-" execute "normal" "gv".a:command
-" finally
-" let &l:paste = oldpaste
-" endtry
-" endfunction
-
-" Find unused Cucumber steps
-command! CucumberFindUnusedSteps :call CucumberFindUnusedSteps()
-function! CucumberFindUnusedSteps()
-  let olderrorformat = &l:errorformat
-  try
-    set errorformat=%m#\ %f:%l
-    cexpr system('bundle exec cucumber --no-profile --no-color --format usage --dry-run features \| grep "NOT MATCHED BY ANY STEPS" -B1 \| egrep -v "(--\|NOT MATCHED BY ANY STEPS)"')
-    cwindow
-  finally
-    let &l:errorformat = olderrorformat
-  endtry
-endfunction
-
+" --FOLLOWING STOLEN FROM VIMRC ENVIMPROVEMENT ----- 
+"  are my equivalents that have been disabled by comment
+  set autoindent            " always set autoindenting on
+  set backspace=2           " allow backspacing over everything in insert mode
+  "set cindent               " c code indenting, autoindent suggested over cindent http://goo.gl/qMsEu
+  set autoindent    " always set autoindenting on mine
+  set diffopt=filler,iwhite " keep files synced and ignore whitespace
+  set expandtab             " get rid of tabs altogether and replace with spaces
+  "set foldcolumn=2          " set a column incase we need it
+  "set foldlevel=10           " fold MINE
+  "set foldmethod=indent     " use indent unless overridden
+  set nofen                 " disable folds
+  set linebreak             " This displays long lines as wrapped at word boundries
+  set nobackup              " Don't keep a backup file
+  "set ruler                 " the ruler on the bottom is useful
+  set scrolloff=5           " dont let the curser get too close to the edge MINE
+  set textwidth=0           " Don't wrap words by default
+  set colorcolumn=80        " set a colored column to warn about width
+  set whichwrap+=<,>,[,],h,l,~                 " arrow keys can wrap in normal and insert modes
+  set helpfile=$VIMRUNTIME/doc/help.txt
+  set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.class
+  "set wrapmargin=80           " When pasteing, use this, because textwidth becomes 0
+                               " wrapmargin inserts breaks if you exceed its value
+  " LargeFile.vim settings
+  " don't run syntax and other expensive things on files larger than NUM megs
+  let g:LargeFile = 100
+  set noswapfile              " this guy is really annoyoing sometimes
 " Whitespace & highlighting & language-specific config
 " ----------------------------------------------------
 
@@ -238,6 +188,13 @@ autocmd FileType ruby imap  <Space>=><Space>
 " Disable 'ex' mode
 map Q <Nop>
 
-" .vimrc.local Options
-" --------------------
-silent! source ~/.vimrc.local
+" --------------------- Maybe unnecessary
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+      \ | wincmd p | diffthis
+endif
+
