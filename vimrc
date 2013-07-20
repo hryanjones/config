@@ -36,6 +36,7 @@ set scrolloff=3                 " Scroll when the cursor is 3 lines from edge
 
 set laststatus=2                " Always show statusline
 let g:rails_statusline=0        " Disable rails statusline, which doesn't like powerline
+
 let g:Powerline_symbols='fancy'
 
 set incsearch                   " Incremental search
