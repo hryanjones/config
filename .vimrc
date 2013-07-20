@@ -118,15 +118,15 @@ endif " has("autocmd")
 set ft=haml.javascript "HAML http://goo.gl/yXgOX"
 au BufNewFile,BufRead *.mi set filetype=xml " Perl Mason"
 
-let hostname = substitute($HOSTNAME, '\..*','','')
-if hostname == "hrjones-2" || hostname == "hrjones"
-  " only stuff to be applied at work"
-endif
-if hostname == "hrjones-2"
-  " only on RHEL5"
-  source /apollo/env/envImprovement/var/vimruntimehook
-endif
-
+"let hostname = substitute($HOSTNAME, '\..*','','')
+"if hostname == "hrjones-2" || hostname == "hrjones"
+"  " only stuff to be applied at work"
+"endif
+"if hostname == "hrjones-2"
+"  " only on RHEL5"
+"source /apollo/env/EnvImprovement/var/vimruntimehook
+"endif
+"
 " --FOLLOWING STOLEN FROM VIMRC ENVIMPROVEMENT ----- 
 "  are my equivalents that have been disabled by comment
   set autoindent            " always set autoindenting on
