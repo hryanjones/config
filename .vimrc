@@ -115,7 +115,6 @@ if has("autocmd")
 endif " has("autocmd")
 
 " Syntax Highlighting changes
-set ft=haml.javascript "HAML http://goo.gl/yXgOX"
 au BufNewFile,BufRead *.mi set filetype=xml " Perl Mason"
 
 "let hostname = substitute($HOSTNAME, '\..*','','')

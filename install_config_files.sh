@@ -9,9 +9,9 @@ mkdir -p $DEST
 mkdir -p $BACKUP_DIR
 cd $DIR
 
-THINGS="`ls -A | grep -E "^\." | grep -vE '^\.git(modules)$'`"
-
-for T in $THINGS; do
-  cp -ruv $DEST/$T $BACKUP
-  cp -ruv $T $DEST
+FILES=`find . -type f -wholename "./.*" | sed -e 's/^\.\///' | grep -vE "^.git(/|modules|ignore)" | head -3`
+echo "$FILES"
+for FILE in $FILES; do
+  mkdir -pv $DEST/`dirname "$FILE"`
+  ln -sv --backup=numbered "$DIR/$FILE" "$DEST/$FILE"
 done
